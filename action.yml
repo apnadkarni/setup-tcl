@@ -26,6 +26,7 @@ runs:
 
     - name: Set Tcl path for non-Windows
       if: runner.os != 'Windows'
+      shell: bash
       run: |
         echo "TCLDIR=/tmp/tcl/${{ inputs.tcl-branch }}" >> $GITHUB_ENV
         echo "TCLSUBDIR=${{ inputs.tcl-branch }}" >> $GITHUB_ENV
@@ -46,7 +47,7 @@ runs:
         path: tcl-${{ inputs.tcl-branch }}
 
     - name: Build Tcl on Windows
-      if: runner.os == 'Windows' and steps.tcl-cache.outputs.cache-hit != 'true'
+      if: runner.os == 'Windows' && steps.tcl-cache.outputs.cache-hit != 'true'
       working-directory: tcl-${{ inputs.tcl-branch }}/win
       shell: cmd
       run: |
@@ -54,8 +55,9 @@ runs:
         nmake /f makefile.vc INSTALLDIR=${{ env.TCLDIR }} install
 
     - name: Build Tcl on non-Windows
-      if: runner.os != 'Windows' and steps.tcl-cache.outputs.cache-hit != 'true'
+      if: runner.os != 'Windows' && steps.tcl-cache.outputs.cache-hit != 'true'
       working-directory: tcl-${{ inputs.tcl-branch }}/unix
+      shell: bash
       run: |
         mkdir build
         cd build
