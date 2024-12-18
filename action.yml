@@ -19,10 +19,10 @@ runs:
   steps:
     - name: Set Tcl path for Windows
       if: runner.os == 'Windows'
-      shell: cmd
+      shell: pwsh
       run: |
-        echo "TCLDIR=C:/tcl/msvc/${{ inputs.tcl-arch }}-${{ inputs.tcl-branch }}" >> %GITHUB_ENV%
-        echo "TCLSUBDIR=${{ inputs.tcl-arch }}-${{ inputs.tcl-branch }}" >> %GITHUB_ENV%
+        echo "TCLDIR=C:/tcl/msvc/${{ inputs.tcl-arch }}-${{ inputs.tcl-branch }}" >> $env:GITHUB_ENV
+        echo "TCLSUBDIR=${{ inputs.tcl-arch }}-${{ inputs.tcl-branch }}" >> $env:GITHUB_ENV
 
     - name: Set Tcl path for non-Windows
       if: runner.os != 'Windows'
